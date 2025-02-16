@@ -1,0 +1,28 @@
+[project]
+name = "ship-fast-or-die"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [{ name = "voynow", email = "voynow99@gmail.com" }]
+dependencies = [
+    "fastapi>=0.115.8",
+    "authlib>=1.4.1",
+    "httpx>=0.28.1",
+    "uvicorn[standard]>=0.34.0",
+    "supabase>=2.13.0",
+    "python-dotenv>=1.0.1",
+    "pydantic>=2.10.6",
+]
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+
+[tool.pdm]
+distribution = true
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.ruff]
+line-length = 120
