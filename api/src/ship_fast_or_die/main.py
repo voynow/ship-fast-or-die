@@ -1,5 +1,6 @@
 # main.py
-import os
+import datetime
+import json
 import traceback
 
 import httpx
@@ -27,9 +28,11 @@ app.add_middleware(
 )
 
 # TODO Replace these with your GitHub OAuth app credentials
-CLIENT_ID = os.environ["GITHUB_CLIENT_ID"]
-CLIENT_SECRET = os.environ["GITHUB_CLIENT_SECRET"]
+# CLIENT_ID = os.environ["GITHUB_CLIENT_ID"]
+# CLIENT_SECRET = os.environ["GITHUB_CLIENT_SECRET"]
+
 REDIRECT_URI = "http://localhost:8000/auth/github/callback"
+
 
 
 @app.get("/auth/github/login")
@@ -130,8 +133,12 @@ async def list_users_products(username: str) -> list[Repository]:
     """
     List user products
     """
-    try:
-        return await list_products(username)
-    except Exception as e:
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+    return await list_products(username)
+
+
+@app.get("/products/leaderboard")
+async def get_leaderboard() -> list[Repository]:
+    """
+    Get all products sorted by stargazers count
+    """
+    return await list_products()

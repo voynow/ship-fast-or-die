@@ -74,12 +74,15 @@ def add_product(product: Repository) -> None:
     table.insert(data).execute()
 
 
-async def list_products(username: str) -> list[Repository]:
+async def list_products(username: Optional[str] = None) -> list[Repository]:
     """
     List products for a user
     """
     table = client.table("product")
-    data = table.select("*").eq("owner", username).execute().data
+    if username:
+        data = table.select("*").eq("owner", username).execute().data
+    else:
+        data = table.select("*").execute().data
     for item in data:
         item["created_at"] = datetime.datetime.fromisoformat(item["created_at"])
         item["repo_created_at"] = datetime.datetime.fromisoformat(item["repo_created_at"])
