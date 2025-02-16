@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 from supabase import Client, create_client
 
-from ship_fast_or_die.repo_tools import Repository
+from src.ship_fast_or_die.repo_tools import Repository
 
 dotenv.load_dotenv()
 

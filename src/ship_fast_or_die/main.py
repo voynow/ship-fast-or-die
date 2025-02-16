@@ -5,7 +5,7 @@ from fastapi import Body, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
-from ship_fast_or_die.db_client import (
+from src.ship_fast_or_die.db_client import (
     User,
     add_product,
     get_product,
@@ -14,7 +14,7 @@ from ship_fast_or_die.db_client import (
     remove_product,
     upsert_user,
 )
-from ship_fast_or_die.repo_tools import Repository, RepositoryMetadata, get_repo, list_repos
+from src.ship_fast_or_die.repo_tools import Repository, RepositoryMetadata, get_repo, list_repos
 
 app = FastAPI()
 
