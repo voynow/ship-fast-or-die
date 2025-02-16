@@ -29,7 +29,7 @@ app.add_middleware(
 # TODO Replace these with your GitHub OAuth app credentials
 CLIENT_ID = os.environ["GITHUB_CLIENT_ID"]
 CLIENT_SECRET = os.environ["GITHUB_CLIENT_SECRET"]
-REDIRECT_URI = "http://localhost:8000/auth/github/callback"
+REDIRECT_URI = f"{os.environ['PUBLIC_API_URL']}/auth/github/callback"
 
 
 @app.get("/auth/github/login")
