@@ -3,6 +3,7 @@ import os
 from typing import Optional
 
 import dotenv
+from fastapi import HTTPException
 from pydantic import BaseModel
 from supabase import Client, create_client
 
@@ -58,6 +59,19 @@ async def get_user(username: str) -> User:
     return User(**data)
 
 
+def validate_access_token(username: str, access_token: str) -> bool:
+    """
+    Validate access token
+
+    :param username: str
+    :param access_token: str
+    :return: bool
+    """
+    table = client.table("user")
+    data = table.select("*").eq("username", username).eq("access_token", access_token).execute().data
+    return len(data) > 0
+
+
 def add_product(product: Repository) -> None:
     """
     Add product data, handling for datetime serialization
@@ -88,3 +102,29 @@ async def list_products(username: Optional[str] = None) -> list[Repository]:
         item["repo_created_at"] = datetime.datetime.fromisoformat(item["repo_created_at"])
         item["repo_pushed_at"] = datetime.datetime.fromisoformat(item["repo_pushed_at"])
     return data
+
+
+async def get_product(username: str, repo_name: str) -> Repository:
+    """
+    Get a product from the database
+    """
+    table = client.table("product")
+    data = table.select("*").eq("owner", username).eq("name", repo_name).execute().data[0]
+    return Repository(**data)
+
+
+def remove_product(username: str, repo_name: str, access_token: str) -> None:
+    """
+    Remove a product from the database
+
+    :param username: str
+    :param repo_name: str
+    :param access_token: str
+    :return: None
+    """
+
+    if not validate_access_token(username, access_token):
+        raise HTTPException(status_code=401, detail="Invalid access token")
+
+    table = client.table("product")
+    table.delete().eq("owner", username).eq("name", repo_name).execute()

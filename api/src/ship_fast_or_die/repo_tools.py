@@ -3,41 +3,8 @@ import json
 from typing import List, Optional
 
 import httpx
+import requests
 from pydantic import BaseModel
-
-
-class Product(BaseModel):
-    username: str
-    repo_name: str
-    created_at: datetime.datetime = datetime.datetime.now()
-
-
-async def get_repo_commits(username: str, repo_name: str, limit: int = 30) -> list[dict]:
-    """
-    Fetch commits for a public repository
-
-    Args:
-        username: GitHub username
-        repo_name: Repository name
-        limit: Maximum number of commits to fetch
-
-    Returns:
-        List of commits with sha, datetime, and message
-    """
-    commits_url = f"https://api.github.com/repos/{username}/{repo_name}/commits"
-    async with httpx.AsyncClient() as client:
-        commits_resp = await client.get(commits_url, params={"per_page": limit})
-        if commits_resp.status_code == 200:
-            commits_json = commits_resp.json()
-            return [
-                {
-                    "sha": commit["sha"],
-                    "datetime": commit["commit"]["author"]["date"],
-                    "message": commit["commit"]["message"],
-                }
-                for commit in commits_json
-            ]
-    return []
 
 
 class RepositoryMetadata(BaseModel):
@@ -54,12 +21,13 @@ class Repository(BaseModel):
     avatar_url: Optional[str]
     language: Optional[str]
     stargazers_count: int
+    num_code_files: Optional[int]
     repo_created_at: datetime.datetime
     repo_pushed_at: datetime.datetime
     created_at: datetime.datetime = datetime.datetime.now()
 
     @classmethod
-    def from_github_api(cls, data: dict) -> "Repository":
+    def from_github_api(cls, data: dict, num_code_files: int) -> "Repository":
         """Parse API response and convert necessary fields."""
         return cls(
             name=data["name"],
@@ -71,23 +39,24 @@ class Repository(BaseModel):
             stargazers_count=data["stargazers_count"],
             repo_created_at=data["created_at"],
             repo_pushed_at=data["pushed_at"],
+            num_code_files=num_code_files,
         )
 
 
-async def list_repos(username: str, limit: int = 100) -> List[RepositoryMetadata]:
+async def list_repos(username: str, access_token: str, limit: int = 100) -> List[RepositoryMetadata]:
     """
-    Fetch public repositories for a user from GitHub API
+    Fetch public repositories for a user from GitHub API using their access token
 
-    Args:
-        username: GitHub username
-        limit: Maximum number of repositories to fetch
-
-    Returns:
-        List of repository data including name, description, stars, and URLs
+    :param username: GitHub username
+    :param access_token: GitHub OAuth access token
+    :param limit: Maximum number of repositories to fetch
+    :return: List of repository metadata
     """
     repos_url = f"https://api.github.com/users/{username}/repos"
+    headers = {"Authorization": f"Bearer {access_token}"}
+
     async with httpx.AsyncClient() as client:
-        repos_resp = await client.get(repos_url, params={"sort": "updated", "per_page": limit})
+        repos_resp = await client.get(repos_url, params={"sort": "updated", "per_page": limit}, headers=headers)
         if repos_resp.status_code == 200:
             repos = repos_resp.json()
             return [
@@ -101,14 +70,66 @@ async def list_repos(username: str, limit: int = 100) -> List[RepositoryMetadata
     return []
 
 
-async def get_repo(username: str, repo_name: str) -> Repository:
+def count_files(owner: str, repo: str, access_token: str) -> int:
     """
-    Get repo from GitHub API and add to products table
+    Counts code files in a GitHub repository recursively via the API.
+
+    Includes files with extensions commonly used for code (.py, .js, .ts, .go, .java, etc.)
+    while excluding binary files, data files, and documentation.
+    """
+    CODE_EXTENSIONS = {
+        ".py",
+        ".js",
+        ".ts",
+        ".jsx",
+        ".tsx",
+        ".go",
+        ".java",
+        ".cpp",
+        ".c",
+        ".h",
+        ".rs",
+        ".rb",
+        ".php",
+        ".scala",
+        ".kt",
+        ".cs",
+        ".swift",
+        ".m",
+        ".r",
+    }
+
+    headers = {"Authorization": f"token {access_token}"}
+    api_url = f"https://api.github.com/repos/{owner}/{repo}/git/trees/main?recursive=1"
+
+    response = requests.get(api_url, headers=headers)
+    if response.status_code != 200:
+        raise Exception(f"GitHub API error: {response.json()}")
+
+    data = response.json()
+    return sum(
+        1
+        for item in data.get("tree", [])
+        if item["type"] == "blob" and any(item["path"].lower().endswith(ext) for ext in CODE_EXTENSIONS)
+    )
+
+
+async def get_repo(username: str, repo_name: str, access_token: str) -> Repository:
+    """
+    Get repo from GitHub API using access token
+
+    :param username: GitHub username
+    :param repo_name: Name of the repository
+    :param access_token: GitHub OAuth access token
+    :return: Repository details or None if not found
     """
     repo_url = f"https://api.github.com/repos/{username}/{repo_name}"
+    headers = {"Authorization": f"Bearer {access_token}"}
+
     async with httpx.AsyncClient() as client:
-        repo_resp = await client.get(repo_url)
+        repo_resp = await client.get(repo_url, headers=headers)
         if repo_resp.status_code == 200:
             repo = repo_resp.json()
-            return Repository.from_github_api(repo)
+            num_code_files = count_files(username, repo_name, access_token)
+            return Repository.from_github_api(repo, num_code_files)
     return None

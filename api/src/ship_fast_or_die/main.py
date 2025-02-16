@@ -1,7 +1,4 @@
-# main.py
-import datetime
-import json
-import traceback
+import os
 
 import httpx
 from fastapi import Body, FastAPI, HTTPException
@@ -11,8 +8,10 @@ from fastapi.responses import RedirectResponse
 from ship_fast_or_die.db_client import (
     User,
     add_product,
+    get_product,
     get_user,
     list_products,
+    remove_product,
     upsert_user,
 )
 from ship_fast_or_die.repo_tools import Repository, RepositoryMetadata, get_repo, list_repos
@@ -28,11 +27,9 @@ app.add_middleware(
 )
 
 # TODO Replace these with your GitHub OAuth app credentials
-# CLIENT_ID = os.environ["GITHUB_CLIENT_ID"]
-# CLIENT_SECRET = os.environ["GITHUB_CLIENT_SECRET"]
-
+CLIENT_ID = os.environ["GITHUB_CLIENT_ID"]
+CLIENT_SECRET = os.environ["GITHUB_CLIENT_SECRET"]
 REDIRECT_URI = "http://localhost:8000/auth/github/callback"
-
 
 
 @app.get("/auth/github/login")
@@ -100,7 +97,9 @@ async def github_callback(code: str = None, state: str = None):
         )
     )
 
-    return RedirectResponse(url=f"http://localhost:3000/users/{user_data['login']}", status_code=302)
+    return RedirectResponse(
+        url=f"http://localhost:3000/add-product?token={access_token}&username={user_data['login']}", status_code=302
+    )
 
 
 @app.get("/users/{username}")
@@ -112,19 +111,30 @@ async def get_user_by_username(username: str) -> User:
 
 
 @app.get("/users/{username}/repos")
-async def list_users_repos(username: str) -> list[RepositoryMetadata]:
+async def list_users_repos(username: str, access_token: str) -> list[RepositoryMetadata]:
     """
     List user repositories
+
+    :param username: GitHub username
+    :param access_token: GitHub OAuth access token
+    :return: List of repository metadata
     """
-    return await list_repos(username)
+    return await list_repos(username, access_token)
 
 
 @app.post("/users/{username}/products")
-async def add_users_product(username: str, repo_name: str = Body(..., embed=True)):
+async def add_users_product(
+    username: str, repo_name: str = Body(..., embed=True), access_token: str = Body(..., embed=True)
+):
     """
     Add a repository to the products
+
+    :param username: GitHub username
+    :param repo_name: Name of the repository
+    :param access_token: GitHub OAuth access token
+    :return: Repository details or None if not found
     """
-    repo = await get_repo(username, repo_name)
+    repo = await get_repo(username, repo_name, access_token)
     return add_product(repo)
 
 
@@ -132,13 +142,43 @@ async def add_users_product(username: str, repo_name: str = Body(..., embed=True
 async def list_users_products(username: str) -> list[Repository]:
     """
     List user products
+
+    :param username: GitHub username
+    :return: List of repository details
     """
     return await list_products(username)
+
+
+@app.get("/users/{username}/products/{repo_name}")
+async def get_users_product(username: str, repo_name: str) -> Repository:
+    """
+    Get a repository from products
+
+    :param username: GitHub username
+    :param repo_name: Name of the repository
+    :return: Repository details
+    """
+    return await get_product(username, repo_name)
+
+
+@app.delete("/users/{username}/products/{repo_name}")
+async def remove_users_product(username: str, repo_name: str, access_token: str = Body(..., embed=True)):
+    """
+    Remove a repository from products
+
+    :param username: GitHub username
+    :param repo_name: Name of the repository
+    :param access_token: GitHub OAuth access token
+    :return: None
+    """
+    return remove_product(username, repo_name, access_token)
 
 
 @app.get("/products/leaderboard")
 async def get_leaderboard() -> list[Repository]:
     """
     Get all products sorted by stargazers count
+
+    :return: List of repository details
     """
     return await list_products()
