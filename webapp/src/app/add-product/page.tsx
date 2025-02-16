@@ -61,14 +61,6 @@ export default function AddProductPage() {
 
     const isProduct = (repoName: string) => products.some(p => p.name === repoName)
 
-    const formatDate = (dateStr: string) => {
-        try {
-            return new Date(dateStr).toLocaleDateString()
-        } catch (e) {
-            return 'Invalid Date'
-        }
-    }
-
     return (
         <div className="min-h-screen bg-zinc-50">
             <Navbar />
