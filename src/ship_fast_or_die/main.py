@@ -1,5 +1,6 @@
 import os
 
+import dotenv
 import httpx
 from fastapi import Body, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,6 +16,8 @@ from src.ship_fast_or_die.db_client import (
     upsert_user,
 )
 from src.ship_fast_or_die.repo_tools import Repository, RepositoryMetadata, get_repo, list_repos
+
+dotenv.load_dotenv()
 
 app = FastAPI()
 
@@ -98,7 +101,8 @@ async def github_callback(code: str = None, state: str = None):
     )
 
     return RedirectResponse(
-        url=f"http://localhost:3000/add-product?token={access_token}&username={user_data['login']}", status_code=302
+        url=f"{os.environ['PUBLIC_API_URL']}/add-product?token={access_token}&username={user_data['login']}",
+        status_code=302,
     )
 
 

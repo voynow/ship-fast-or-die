@@ -68,11 +68,16 @@ function AddProductContent() {
                 <header className="mb-32 text-center">
                     <div className="relative z-10">
                         <h1 className="font-mono text-7xl font-black tracking-tighter text-zinc-900">
-                            ADD YOUR <span className="text-indigo-500">PRODUCTS</span>
+                            SHIP IT <span className="text-indigo-500">NOW</span>
                         </h1>
                         <p className="mt-6 text-zinc-500 font-mono text-sm tracking-wide">
                             CHOOSE THE REPOSITORIES YOU WANT TO SHOWCASE
                         </p>
+                        <div className="mt-8 inline-block px-4 py-2 bg-indigo-50 rounded-lg">
+                            <p className="text-xs text-indigo-600 font-mono">
+                                Only public repositories will be shown
+                            </p>
+                        </div>
                     </div>
                 </header>
 
