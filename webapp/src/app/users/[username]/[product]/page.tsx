@@ -2,6 +2,7 @@
 
 import { Navbar } from '@/app/components/Navbar'
 import { Product } from '@/app/types/product'
+import Image from 'next/image'
 import { use, useEffect, useState } from 'react'
 
 type Props = {
@@ -16,7 +17,7 @@ export default function ProductPage({ params }: Props) {
     const [productData, setProductData] = useState<Product | null>(null)
 
     useEffect(() => {
-        fetch(`http://localhost:8000/users/${username}/products/${product}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${username}/products/${product}`)
             .then(async r => {
                 const text = await r.text();
                 console.log('Raw response text:', text);
@@ -60,7 +61,13 @@ export default function ProductPage({ params }: Props) {
                     <div className="flex items-start gap-6">
                         <div className="shrink-0">
                             {productData.avatar_url ? (
-                                <img src={productData.avatar_url} alt="" className="w-16 h-16 rounded-lg bg-zinc-50 object-cover" />
+                                <Image
+                                    src={productData.avatar_url}
+                                    alt=""
+                                    width={64}
+                                    height={64}
+                                    className="w-16 h-16 rounded-lg bg-zinc-50 object-cover"
+                                />
                             ) : (
                                 <div className="w-16 h-16 rounded-lg bg-indigo-50 flex items-center justify-center">
                                     <span className="text-2xl text-indigo-300">⚡</span>

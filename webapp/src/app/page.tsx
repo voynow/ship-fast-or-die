@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Navbar } from './components/Navbar'
@@ -9,7 +10,7 @@ export default function Page() {
   const [products, setProducts] = useState<Product[]>([])
 
   useEffect(() => {
-    fetch('http://localhost:8000/products/leaderboard')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/leaderboard`)
       .then(res => res.json())
       .then(products => {
         const sortedProducts = products.sort((a: Product, b: Product) => {
@@ -56,9 +57,11 @@ export default function Page() {
                             hover:border-indigo-100 hover:bg-white transition-all duration-200">
                 <div className="relative shrink-0">
                   {product.avatar_url ? (
-                    <img
+                    <Image
                       src={product.avatar_url}
                       alt=""
+                      width={40}
+                      height={40}
                       className="w-10 h-10 rounded-lg bg-zinc-50 object-cover"
                     />
                   ) : (
@@ -91,12 +94,12 @@ export default function Page() {
                       return (
                         <>
                           <div>Shipped in {timeString}</div>
-                          <div className="relative">
-                            Velocity / Simplcity Score: {velocity}
-                          </div>
                           {product.num_code_files && (
                             <div>{product.num_code_files} files</div>
                           )}
+                          <div className="relative">
+                            Velocity / Simplcity Score: {velocity}
+                          </div>
                         </>
                       )
                     })()}

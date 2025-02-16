@@ -1,16 +1,18 @@
+import Link from "next/link"
+
 export function Navbar() {
   return (
     <nav className="border-b border-zinc-100">
       <div className="max-w-5xl mx-auto px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <a
+          <Link
             href="/"
             className="flex items-center gap-2 text-zinc-400 hover:text-zinc-600"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
               <path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z" />
             </svg>
-          </a>
+          </Link>
           <a
             href="https://twitter.com/jamievoynow"
             target="_blank"
@@ -36,7 +38,7 @@ export function Navbar() {
         </div>
 
         <a
-          href="http://localhost:8000/auth/github/login"
+          href={`${process.env.NEXT_PUBLIC_API_URL}/auth/github/login`}
           className="px-4 py-2 bg-black text-white text-sm font-mono rounded-lg 
                      hover:bg-zinc-800 transition-colors duration-200"
         >

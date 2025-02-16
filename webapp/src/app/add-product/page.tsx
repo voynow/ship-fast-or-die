@@ -22,8 +22,8 @@ export default function AddProductPage() {
 
         // Fetch repos and existing products
         Promise.all([
-            fetch(`http://localhost:8000/users/${username}/repos?access_token=${token}`).then(r => r.json()),
-            fetch(`http://localhost:8000/users/${username}/products`).then(r => r.json())
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${username}/repos?access_token=${token}`).then(r => r.json()),
+            fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${username}/products`).then(r => r.json())
         ]).then(([reposData, productsData]) => {
             setRepos(reposData)
             setProducts(productsData)
@@ -31,7 +31,7 @@ export default function AddProductPage() {
     }, [token, username, router])
 
     const addProduct = async (repoName: string) => {
-        await fetch(`http://localhost:8000/users/${username}/products`, {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${username}/products`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,12 +41,12 @@ export default function AddProductPage() {
                 access_token: token
             }),
         })
-        const updatedProducts = await fetch(`http://localhost:8000/users/${username}/products`).then(r => r.json())
+        const updatedProducts = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${username}/products`).then(r => r.json())
         setProducts(updatedProducts)
     }
 
     const removeProduct = async (repoName: string) => {
-        await fetch(`http://localhost:8000/users/${username}/products/${repoName}`, {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${username}/products/${repoName}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export default function AddProductPage() {
                 access_token: token
             }),
         })
-        const updatedProducts = await fetch(`http://localhost:8000/users/${username}/products`).then(r => r.json())
+        const updatedProducts = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${username}/products`).then(r => r.json())
         setProducts(updatedProducts)
     }
 
