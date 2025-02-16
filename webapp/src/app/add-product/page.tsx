@@ -4,9 +4,9 @@ import { Navbar } from '@/app/components/Navbar'
 import type { Product } from '@/app/types/product'
 import type { RepositoryMetadata } from '@/app/types/repository'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
-export default function AddProductPage() {
+function AddProductContent() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const [repos, setRepos] = useState<RepositoryMetadata[]>([])
@@ -113,5 +113,13 @@ export default function AddProductPage() {
                 </div>
             </main>
         </div>
+    )
+}
+
+export default function AddProductPage() {
+    return (
+        <Suspense>
+            <AddProductContent />
+        </Suspense>
     )
 }
