@@ -38,10 +38,17 @@ export default function Page() {
             <p className="mt-6 text-zinc-500 font-mono text-sm tracking-wide">
               CELEBRATING THE BUILDERS WHO SHIP EARLY & OFTEN
             </p>
-            <div className="mt-8 inline-block px-4 py-2 bg-indigo-50 rounded-lg">
-              <p className="text-xs text-indigo-600 font-mono">
-                Rankings based on velocity (stars/time) and simplicity (fewer files)
-              </p>
+            <div className="mt-8 space-y-2">
+              <div className="inline-block px-4 py-2 bg-indigo-50 rounded-lg">
+                <p className="text-xs text-indigo-600 font-mono">
+                  Rankings based on velocity (stars/time) and simplicity (fewer files)
+                </p>
+              </div>
+              <div className="inline-block px-4 py-2 bg-amber-50 rounded-lg">
+                <p className="text-xs text-amber-600 font-mono">
+                  ⭐ Star your favorite projects on GitHub to boost their ranking!
+                </p>
+              </div>
             </div>
           </div>
         </header>
@@ -88,19 +95,19 @@ export default function Page() {
                       const velocity = ((product.stargazers_count / daysToShip) * (1 / fileComplexityFactor)).toFixed(2)
 
                       const timeString = daysToShip > 0
-                        ? `${daysToShip.toFixed(2)} days`
-                        : `${(diff / (1000 * 60 * 60)).toFixed(2)} hours`;
+                        ? `${daysToShip.toFixed(1)} days`
+                        : `${(diff / (1000 * 60 * 60)).toFixed(1)} hours`;
 
                       return (
-                        <>
-                          <div>Shipped in {timeString}</div>
+                        <div className="flex flex-wrap gap-x-4 text-[10px] sm:text-xs">
+                          <div className="text-zinc-500">⚡ {timeString}</div>
                           {product.num_code_files && (
-                            <div>{product.num_code_files} files</div>
+                            <div className="text-zinc-500">📁 {product.num_code_files} files</div>
                           )}
-                          <div className="relative">
-                            Velocity / Simplcity Score: {velocity}
+                          <div className="font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">
+                            Score: {velocity}
                           </div>
-                        </>
+                        </div>
                       )
                     })()}
                   </div>
