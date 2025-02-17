@@ -16,8 +16,8 @@ export default function Page() {
         const sortedProducts = products.sort((a: Product, b: Product) => {
           const getScore = (p: Product) => {
             const timeToShip = new Date(p.repo_pushed_at).getTime() - new Date(p.repo_created_at).getTime()
-            const daysToShip = timeToShip / (1000 * 60 * 60 * 24)
-            const fileComplexityFactor = p.num_code_files ? Math.log(p.num_code_files) : 1
+            const daysToShip = Math.max(timeToShip / (1000 * 60 * 60 * 24), 0.1) // minimum 0.1 days
+            const fileComplexityFactor = p.num_code_files ? Math.max(Math.log(p.num_code_files), 1) : 1
             return (p.stargazers_count / daysToShip) * (1 / fileComplexityFactor)
           }
           return getScore(b) - getScore(a) // Sort descending
