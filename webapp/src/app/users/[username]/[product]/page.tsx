@@ -190,9 +190,9 @@ export default function ProductPage({ params }: Props) {
                                     {(() => {
                                         const timeToShip = new Date(productData.repo_pushed_at).getTime() -
                                             new Date(productData.repo_created_at).getTime()
-                                        const daysToShip = timeToShip / (1000 * 60 * 60 * 24)
-                                        const fileComplexityFactor = productData.num_code_files ? Math.log(productData.num_code_files) : 1
-                                        return ((productData.stargazers_count / daysToShip) * (1 / fileComplexityFactor)).toFixed(2)
+                                        const daysToShip = Math.max(timeToShip / (1000 * 60 * 60 * 24), 0.1)
+                                        const fileBonus = productData.num_code_files === 1 ? 2 : 1 / Math.log(productData.num_code_files + 1)
+                                        return Math.round((productData.stargazers_count * fileBonus / daysToShip) * 100) / 100
                                     })()}
                                 </div>
                             </div>

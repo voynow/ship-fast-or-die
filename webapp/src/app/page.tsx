@@ -16,9 +16,17 @@ export default function Page() {
         const sortedProducts = products.sort((a: Product, b: Product) => {
           const getScore = (p: Product) => {
             const timeToShip = new Date(p.repo_pushed_at).getTime() - new Date(p.repo_created_at).getTime()
-            const daysToShip = Math.max(timeToShip / (1000 * 60 * 60 * 24), 0.1) // minimum 0.1 days
-            const fileComplexityFactor = p.num_code_files ? Math.max(Math.log(p.num_code_files), 1) : 1
-            return (p.stargazers_count / daysToShip) * (1 / fileComplexityFactor)
+            const daysToShip = Math.max(timeToShip / (1000 * 60 * 60 * 24), 0.1)
+            const fileBonus = p.num_code_files === 1 ? 2 : 1 / Math.log(p.num_code_files + 1)
+            const score = Math.round((p.stargazers_count * fileBonus / daysToShip) * 100) / 100
+            console.log(`Score for ${p.owner}/${p.name}:`, {
+              stars: p.stargazers_count,
+              files: p.num_code_files,
+              daysToShip,
+              fileBonus,
+              finalScore: score
+            })
+            return score
           }
           return getScore(b) - getScore(a) // Sort descending
         })
@@ -128,8 +136,8 @@ export default function Page() {
                       const diff = new Date(product.repo_pushed_at).getTime() -
                         new Date(product.repo_created_at).getTime()
                       const daysToShip = diff / (1000 * 60 * 60 * 24)
-                      const fileComplexityFactor = product.num_code_files ? Math.log(product.num_code_files) : 1
-                      const velocity = ((product.stargazers_count / daysToShip) * (1 / fileComplexityFactor)).toFixed(2)
+                      const fileBonus = product.num_code_files === 1 ? 2 : 1 / Math.log(product.num_code_files + 1)
+                      const velocity = Math.round((product.stargazers_count * fileBonus / daysToShip) * 100) / 100
 
                       const timeString = daysToShip > 0
                         ? `${daysToShip.toFixed(1)} days`
