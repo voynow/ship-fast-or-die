@@ -54,14 +54,24 @@ export default function Page() {
         </header>
 
         <div className="space-y-2">
-          {products.map(product => (
+          {products.map((product, index) => (
             <Link
               key={`${product.owner}/${product.name}`}
               href={`/users/${product.owner}/${product.name}`}
               className="group block"
             >
-              <div className="flex items-start gap-5 p-5 bg-white rounded-lg border border-zinc-100 
-                            hover:border-indigo-100 hover:bg-white transition-all duration-200">
+              <div className={`flex items-start gap-5 p-5 bg-white rounded-lg border transition-all duration-200 relative
+                group-hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] 
+                group-hover:-translate-y-0.5
+                hover:border-indigo-100`}>
+                {index < 3 && (
+                  <div className={`absolute -top-1.5 -left-2.5 w-5 h-5 rounded-full shadow-sm flex items-center justify-center text-[10px] font-mono font-bold
+                    ${index === 0 ? 'bg-gradient-to-br from-amber-200 to-amber-400 text-amber-900' :
+                      index === 1 ? 'bg-gradient-to-br from-zinc-200 to-zinc-300 text-zinc-700' :
+                        'bg-gradient-to-br from-orange-200 to-orange-300 text-orange-800'}`}>
+                    {index + 1}
+                  </div>
+                )}
                 <div className="relative shrink-0">
                   {product.avatar_url ? (
                     <Image
@@ -126,6 +136,15 @@ export default function Page() {
               </div>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Link
+            href="/submit"
+            className="inline-flex items-center px-6 py-3 text-sm font-mono text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 transition-colors"
+          >
+            + Add Your Product
+          </Link>
         </div>
       </main>
     </div>
