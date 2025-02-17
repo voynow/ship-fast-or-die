@@ -43,7 +43,7 @@ export default function ProductPage({ params }: Props) {
     return (
         <div className="min-h-screen bg-zinc-50">
             <Navbar />
-            <main className="px-6 py-24 max-w-5xl mx-auto">
+            <main className="px-2 sm:px-6 py-24 max-w-5xl mx-auto">
                 {/* Hero Section */}
                 <div className="mb-16 text-center">
                     <h1 className="font-mono text-4xl sm:text-6xl font-black tracking-tighter text-zinc-900">
@@ -58,7 +58,7 @@ export default function ProductPage({ params }: Props) {
 
                 {/* Main Stats Card */}
                 <div className="p-8 bg-white rounded-lg border border-zinc-100">
-                    <div className="flex items-start gap-6">
+                    <div className="flex items-start gap-2 sm:gap-6">
                         <div className="shrink-0">
                             {productData.avatar_url ? (
                                 <Image
@@ -98,9 +98,9 @@ export default function ProductPage({ params }: Props) {
                             {/* Stats Grid - Compact 2-column Layout */}
                             <div className="grid grid-cols-2 gap-2 mb-12 font-mono">
                                 {/* Each stat card gets more compact sizing */}
-                                <div className="p-3 sm:p-6 bg-zinc-50 border border-zinc-100">
+                                <div className="p-2 sm:p-6 bg-zinc-50 border border-zinc-100">
                                     <div className="flex flex-col">
-                                        <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1 sm:gap-2">
+                                        <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1">
                                             <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M12 .587l3.668 7.431 8.332 1.21-6.001 5.85 1.416 8.265L12 19.127l-7.417 3.89 1.416-8.265-6.001-5.85 8.332-1.21z" />
                                             </svg>
@@ -110,9 +110,9 @@ export default function ProductPage({ params }: Props) {
                                     </div>
                                 </div>
 
-                                <div className="p-3 sm:p-6 bg-zinc-50 border border-zinc-100">
+                                <div className="p-2 sm:p-6 bg-zinc-50 border border-zinc-100">
                                     <div className="flex flex-col">
-                                        <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1 sm:gap-2">
+                                        <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1">
                                             <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                                                 <path d="M12 18.12L9.17 21l.83-3.57-2.67-2.23 3.54-.31L12 12l1.13 2.89 3.54.31-2.67 2.23.83 3.57z" />
                                             </svg>
@@ -128,9 +128,9 @@ export default function ProductPage({ params }: Props) {
                                 </div>
 
                                 {/* Dates */}
-                                <div className="p-3 sm:p-6 bg-zinc-50 border border-zinc-100">
+                                <div className="p-2 sm:p-6 bg-zinc-50 border border-zinc-100">
                                     <div className="flex flex-col">
-                                        <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1 sm:gap-2">
+                                        <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1">
                                             <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>
@@ -145,9 +145,9 @@ export default function ProductPage({ params }: Props) {
                                     </div>
                                 </div>
 
-                                <div className="p-3 sm:p-6 bg-zinc-50 border border-zinc-100">
+                                <div className="p-2 sm:p-6 bg-zinc-50 border border-zinc-100">
                                     <div className="flex flex-col">
-                                        <div className="text-xs sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1 sm:gap-2">
+                                        <div className="text-xs sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1">
                                             <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
@@ -163,9 +163,9 @@ export default function ProductPage({ params }: Props) {
                                 </div>
 
                                 {/* Files and Score */}
-                                <div className="p-3 sm:p-6 bg-zinc-50 border border-zinc-100">
+                                <div className="p-2 sm:p-6 bg-zinc-50 border border-zinc-100">
                                     <div className="flex flex-col">
-                                        <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1 sm:gap-2">
+                                        <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1">
                                             <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                             </svg>
@@ -175,9 +175,9 @@ export default function ProductPage({ params }: Props) {
                                     </div>
                                 </div>
 
-                                <div className="p-3 sm:p-6 bg-zinc-50 border border-zinc-100">
+                                <div className="p-2 sm:p-6 bg-zinc-50 border border-zinc-100">
                                     <div className="flex flex-col">
-                                        <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1 sm:gap-2">
+                                        <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1">
                                             <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                             </svg>
@@ -196,7 +196,7 @@ export default function ProductPage({ params }: Props) {
                                 </div>
 
                                 {/* Time to Ship - Full Width but Compact */}
-                                <div className="col-span-2 p-3 sm:p-6 bg-black text-white">
+                                <div className="col-span-2 p-2 sm:p-6 bg-black text-white">
                                     <div className="text-xs sm:text-sm tracking-wider mb-4 sm:mb-6 flex items-center gap-1 sm:gap-2 text-zinc-300">
                                         <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
