@@ -34,7 +34,10 @@ export default function ProductPage({ params }: Props) {
             <div className="min-h-screen bg-zinc-50">
                 <Navbar />
                 <div className="p-8 max-w-2xl mx-auto">
-                    <p className="font-mono text-zinc-500 text-center">404_PRODUCT_NOT_FOUND</p>
+                    <div className="mt-32 flex flex-col items-center gap-4">
+                        <div className="w-4 h-4 bg-zinc-300 rounded-full mx-auto animate-[pulse_1.5s_ease-in-out_infinite]" />
+                        <div className="font-mono text-xs text-zinc-400 tracking-wider">LOADING</div>
+                    </div>
                 </div>
             </div>
         )

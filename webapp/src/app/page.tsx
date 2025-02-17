@@ -29,25 +29,52 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-zinc-50">
       <Navbar />
-      <main className="px-6 py-24 max-w-5xl mx-auto">
-        <header className="mb-32 text-center">
-          <div className="relative z-10 mt-12">
+      <main className="px-6 py-12 max-w-5xl mx-auto">
+        <header className="mb-16 text-center">
+          <div className="relative z-10">
             <h1 className="font-mono text-7xl font-black tracking-tighter text-zinc-900">
               SHIP FAST <span className="text-indigo-500">OR DIE</span>
             </h1>
-            <p className="mt-6 text-zinc-500 font-mono text-sm tracking-wide">
-              CELEBRATING THE BUILDERS WHO SHIP EARLY & OFTEN
+            <p className="mt-6 text-zinc-500 font-mono text-2xl tracking-wide">
+              Celebrating the builders who ship early & often
             </p>
-            <div className="mt-8 space-y-2">
-              <div className="inline-block px-4 py-2 bg-indigo-50 rounded-lg">
-                <p className="text-xs text-indigo-600 font-mono">
-                  Rankings based on velocity (stars/time) and simplicity (fewer files)
-                </p>
-              </div>
-              <div className="inline-block px-4 py-2 bg-amber-50 rounded-lg">
-                <p className="text-xs text-amber-600 font-mono">
-                  ⭐ Star your favorite projects on GitHub to boost their ranking!
-                </p>
+
+            <div className="mt-12 flex flex-col items-center gap-4 max-w-2xl mx-auto">
+              <h3 className="text-lg text-indigo-600 font-mono font-semibold text-center">
+                How we rank products
+              </h3>
+              <div className="w-full p-4 bg-indigo-50 rounded-3xl shadow-sm">
+                <div className="grid gap-12 max-w-xl mx-auto">
+                  <div className="grid grid-cols-[80px_1fr] items-center">
+                    <div className="w-16 h-16 rounded-2xl bg-indigo-100 flex items-center justify-center shrink-0 shadow-sm">
+                      <span className="text-lg">⚡</span>
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-lg font-medium text-zinc-900 mb-2">Ship Fast</h4>
+                      <p className="text-zinc-600">Time from first commit to last push (faster = better)</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-[80px_1fr] items-center">
+                    <div className="w-16 h-16 rounded-2xl bg-indigo-100 flex items-center justify-center shrink-0 shadow-sm">
+                      <span className="text-lg">📦</span>
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-lg font-medium text-zinc-900 mb-2">Keep It Simple</h4>
+                      <p className="text-zinc-600">Simple code is better (fewer files = better)</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-[80px_1fr] items-center">
+                    <div className="w-16 h-16 rounded-2xl bg-indigo-100 flex items-center justify-center shrink-0 shadow-sm">
+                      <span className="text-lg">⭐</span>
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-lg font-medium text-zinc-900 mb-2">Get Recognition</h4>
+                      <p className="text-zinc-600">Use GitHub stars to boost products that you love!</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
