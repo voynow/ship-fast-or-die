@@ -50,7 +50,7 @@ async def github_login():
         "client_id": CLIENT_ID,
         "redirect_uri": REDIRECT_URI,
         "scope": "user:email repo",
-        "state": "random_state_string",  # TODO In production, generate and validate this state to prevent CSRF.
+        "state": "random_state_string",
     }
     url = httpx.URL(github_auth_url, params=params)
     return RedirectResponse(url=url)

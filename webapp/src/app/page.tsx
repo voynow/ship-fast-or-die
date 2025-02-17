@@ -167,7 +167,7 @@ export default function Page() {
 
         <div className="mt-12 text-center">
           <Link
-            href="/submit"
+            href={`${process.env.NEXT_PUBLIC_API_URL}/auth/github/login`}
             className="inline-flex items-center px-6 py-3 text-sm font-mono text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 transition-colors"
           >
             + Add Your Product
