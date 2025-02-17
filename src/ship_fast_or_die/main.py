@@ -106,7 +106,7 @@ async def github_callback(code: str = None, state: str = None):
     )
 
     return RedirectResponse(
-        url=f"https://https://www.shipfastordie.com/add-product?token={access_token}&username={user_data['login']}",
+        url=f"https://www.shipfastordie.com/add-product?token={access_token}&username={user_data['login']}",
         status_code=302,
     )
 
