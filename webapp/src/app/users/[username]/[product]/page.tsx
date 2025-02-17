@@ -95,7 +95,8 @@ export default function ProductPage({ params }: Props) {
 
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 gap-2 mb-12 font-mono">
-                        {/* Each stat card gets more compact sizing */}
+
+                        {/* Stars */}
                         <div className="p-2 sm:p-6 bg-zinc-50 border border-zinc-100">
                             <div className="flex flex-col">
                                 <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1">
@@ -104,10 +105,11 @@ export default function ProductPage({ params }: Props) {
                                     </svg>
                                     Stars
                                 </div>
-                                <div className="text-xl sm:text-4xl font-bold text-zinc-900">{productData.stargazers_count}</div>
+                                <div className="text-2xl sm:text-4xl font-bold text-zinc-900">{productData.stargazers_count}</div>
                             </div>
                         </div>
 
+                        {/* Language */}
                         <div className="p-2 sm:p-6 bg-zinc-50 border border-zinc-100">
                             <div className="flex flex-col">
                                 <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1">
@@ -119,7 +121,7 @@ export default function ProductPage({ params }: Props) {
                                 {productData.language && (
                                     <div className="flex items-center gap-2">
                                         <span className="w-3 h-3 rounded-full bg-indigo-500" />
-                                        <div className="text-xl sm:text-4xl font-bold text-zinc-900">{productData.language}</div>
+                                        <div className="text-2xl sm:text-4xl font-bold text-zinc-900">{productData.language}</div>
                                     </div>
                                 )}
                             </div>
@@ -134,10 +136,10 @@ export default function ProductPage({ params }: Props) {
                                     </svg>
                                     Created
                                 </div>
-                                <div className="text-xl sm:text-4xl font-bold text-zinc-900">
+                                <div className="text-2xl sm:text-4xl font-bold text-zinc-900">
                                     {new Date(productData.repo_created_at).toLocaleDateString()}
                                 </div>
-                                <div className="text-[8px] sm:text-sm text-zinc-500 mt-1">
+                                <div className="text-[10px] sm:text-sm text-zinc-500 mt-1">
                                     {new Date(productData.repo_created_at).toLocaleTimeString()}
                                 </div>
                             </div>
@@ -145,7 +147,7 @@ export default function ProductPage({ params }: Props) {
 
                         <div className="p-2 sm:p-6 bg-zinc-50 border border-zinc-100">
                             <div className="flex flex-col">
-                                <div className="text-xs sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1">
+                                <div className="text-[10px] sm:text-sm text-zinc-500 uppercase mb-2 flex items-center gap-1">
                                     <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -154,7 +156,7 @@ export default function ProductPage({ params }: Props) {
                                 <div className="text-2xl sm:text-4xl font-bold text-zinc-900">
                                     {new Date(productData.repo_pushed_at).toLocaleDateString()}
                                 </div>
-                                <div className="text-xs sm:text-sm text-zinc-500 mt-1">
+                                <div className="text-[10px] sm:text-sm text-zinc-500 mt-1">
                                     {new Date(productData.repo_pushed_at).toLocaleTimeString()}
                                 </div>
                             </div>
@@ -169,7 +171,7 @@ export default function ProductPage({ params }: Props) {
                                     </svg>
                                     Files
                                 </div>
-                                <div className="text-xl sm:text-4xl font-bold text-zinc-900">{productData.num_code_files}</div>
+                                <div className="text-2xl sm:text-4xl font-bold text-zinc-900">{productData.num_code_files}</div>
                             </div>
                         </div>
 
@@ -181,7 +183,7 @@ export default function ProductPage({ params }: Props) {
                                     </svg>
                                     Velocity Score
                                 </div>
-                                <div className="text-xl sm:text-4xl font-bold text-zinc-900">
+                                <div className="text-2xl sm:text-4xl font-bold text-zinc-900">
                                     {(() => {
                                         const timeToShip = new Date(productData.repo_pushed_at).getTime() -
                                             new Date(productData.repo_created_at).getTime()
