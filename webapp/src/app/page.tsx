@@ -17,7 +17,7 @@ export default function Page() {
           const getScore = (p: Product) => {
             const timeToShip = new Date(p.repo_pushed_at).getTime() - new Date(p.repo_created_at).getTime()
             const daysToShip = Math.max(timeToShip / (1000 * 60 * 60 * 24), 0.1)
-            const fileBonus = p.num_code_files === 1 ? 2 : 1 / Math.log(p.num_code_files + 1)
+            const fileBonus = (p.num_code_files === null || p.num_code_files === 1) ? 2 : 1 / Math.log((p.num_code_files || 1) + 1)
             const score = Math.round((p.stargazers_count * fileBonus / daysToShip) * 100) / 100
             console.log(`Score for ${p.owner}/${p.name}:`, {
               stars: p.stargazers_count,
@@ -136,7 +136,7 @@ export default function Page() {
                       const diff = new Date(product.repo_pushed_at).getTime() -
                         new Date(product.repo_created_at).getTime()
                       const daysToShip = diff / (1000 * 60 * 60 * 24)
-                      const fileBonus = product.num_code_files === 1 ? 2 : 1 / Math.log(product.num_code_files + 1)
+                      const fileBonus = (product.num_code_files === null || product.num_code_files === 1) ? 2 : 1 / Math.log((product.num_code_files || 1) + 1)
                       const velocity = Math.round((product.stargazers_count * fileBonus / daysToShip) * 100) / 100
 
                       const timeString = daysToShip > 0

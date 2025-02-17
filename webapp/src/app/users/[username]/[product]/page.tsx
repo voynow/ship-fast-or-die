@@ -174,7 +174,7 @@ export default function ProductPage({ params }: Props) {
                                     </svg>
                                     Files
                                 </div>
-                                <div className="text-2xl sm:text-4xl font-bold text-zinc-900">{productData.num_code_files}</div>
+                                <div className="text-2xl sm:text-4xl font-bold text-zinc-900">{productData.num_code_files ?? 0}</div>
                             </div>
                         </div>
 
@@ -191,7 +191,7 @@ export default function ProductPage({ params }: Props) {
                                         const timeToShip = new Date(productData.repo_pushed_at).getTime() -
                                             new Date(productData.repo_created_at).getTime()
                                         const daysToShip = Math.max(timeToShip / (1000 * 60 * 60 * 24), 0.1)
-                                        const fileBonus = productData.num_code_files === 1 ? 2 : 1 / Math.log(productData.num_code_files + 1)
+                                        const fileBonus = (productData.num_code_files ?? 1) === 1 ? 2 : 1 / Math.log((productData.num_code_files ?? 1) + 1)
                                         return Math.round((productData.stargazers_count * fileBonus / daysToShip) * 100) / 100
                                     })()}
                                 </div>
